@@ -1,226 +1,458 @@
 /**
- * Task Manager Styles
+ * ============================================================================
+ * TASK MANAGER STYLES - CSS for Visual Appearance
+ * ============================================================================
  * 
- * CSS styling for task management components.
- * Demonstrates "Nice to Have" CSS skill from job posting.
+ * WHAT THIS FILE DOES:
+ * CSS (Cascading Style Sheets) controls how HTML elements LOOK.
+ * While HTML provides the structure (like the frame of a house),
+ * CSS provides the decoration (paint, furniture, curtains).
+ * 
+ * WHY THIS MATTERS:
+ * - Good styling makes apps easier to use and more professional
+ * - Consistent colors and spacing create a cohesive look
+ * - Responsive design makes the app work on different screen sizes
+ * 
+ * RELATIONSHIP TO THE WHOLE APP:
+ * If data-model.js is the FOUNDATION, task-utils.js is the MECHANICS,
+ * and api-integration.js is the COMMUNICATION, then this file is
+ * the AESTHETICS - it makes everything look good and feel polished.
+ * 
+ * KEY CONCEPTS:
+ * - Selector: Tells CSS which HTML elements to style (e.g., ".task-card")
+ * - Property: What aspect to style (e.g., "color", "font-size")
+ * - Value: How to style it (e.g., "red", "16px")
+ * - Class: A reusable style that can be applied to multiple elements
  */
 
-/* ============================================
+/* ============================================================================
    CSS VARIABLES (Design Tokens)
-   ============================================ */
+   ============================================================================
+   
+   WHAT ARE CSS VARIABLES?
+   Variables are like labeled boxes that store values. Instead of typing the
+   same color code 50 times, we define it once here and use the variable name.
+   
+   WHY USE VARIABLES?
+   - Change a color in one place, it updates everywhere
+   - Easier to read: --color-danger is clearer than #ef4444
+   - Theme switching becomes simple (just change the variable values)
+   
+   REAL-WORLD ANALOGY:
+   Like naming your paint colors instead of using hex codes.
+   "Use Sky Blue" is easier than "Use #87CEEB"
+*/
 
 :root {
-  /* Colors */
-  --color-primary: #2563eb;
-  --color-primary-dark: #1d4ed8;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-info: #3b82f6;
+  /* ----------------------------------------
+     COLOR PALETTE
+     ----------------------------------------
+     We define a consistent color scheme that's used throughout the app.
+     Each color has a purpose - we don't just pick random colors.
+  */
   
-  /* Grays */
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
+  /* Primary brand colors - used for main actions and highlights */
+  --color-primary: #2563eb;       /* Bright blue - main brand color */
+  --color-primary-dark: #1d4ed8;  /* Darker blue - for hover states */
   
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  /* Semantic colors - each color has a specific meaning */
+  --color-success: #10b981;       /* Green - things went well */
+  --color-warning: #f59e0b;       /* Orange - caution needed */
+  --color-danger: #ef4444;        /* Red - error or urgent */
+  --color-info: #3b82f6;          /* Blue - informational */
   
-  /* Border Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
+  /* ----------------------------------------
+     GRAY SCALE
+     ----------------------------------------
+     A range of grays from almost white to almost black.
+     Used for text, borders, backgrounds, and subtle variations.
+     
+     WHY A GRAY SCALE?
+     - Creates visual hierarchy (darker = more important)
+     - Provides subtle contrast without harsh black/white
+     - Easier to read and more professional than pure black
+  */
+  --gray-50: #f9fafb;   /* Almost white - very subtle backgrounds */
+  --gray-100: #f3f4f6;  /* Light gray - subtle backgrounds */
+  --gray-200: #e5e7eb;  /* Light-medium gray - borders */
+  --gray-300: #d1d5db;  /* Medium gray - disabled elements */
+  --gray-400: #9ca3af;  /* Medium-dark gray - placeholder text */
+  --gray-500: #6b7280;  /* Dark-medium gray - secondary text */
+  --gray-600: #4b5563;  /* Dark gray - less important headings */
+  --gray-700: #374151;  /* Darker gray - normal text */
+  --gray-800: #1f2937;  /* Very dark gray - important text */
+  --gray-900: #111827;  /* Almost black - primary text */
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  /* ----------------------------------------
+     SPACING SYSTEM
+     ----------------------------------------
+     Consistent spacing values for margins and padding.
+     Using a scale ensures everything lines up nicely.
+     
+     WHY 0.25rem INCREMENTS?
+     - 0.25rem = 4px on standard settings
+     - Creates a predictable rhythm in the design
+     - Easy to do math: 2 * --spacing-sm = --spacing-md
+  */
+  --spacing-xs: 0.25rem;   /* 4px - tiny gaps */
+  --spacing-sm: 0.5rem;    /* 8px - small gaps */
+  --spacing-md: 1rem;      /* 16px - standard gaps */
+  --spacing-lg: 1.5rem;    /* 24px - larger gaps */
+  --spacing-xl: 2rem;      /* 32px - section gaps */
   
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
+  /* ----------------------------------------
+     BORDER RADIUS
+     ----------------------------------------
+     Controls how rounded corners are.
+     Larger values = more rounded.
+     
+     WHY ROUNDED CORNERS?
+     - Feels more modern and friendly
+     - Sharp corners can feel harsh
+     - Consistent radius creates visual harmony
+  */
+  --radius-sm: 0.25rem;    /* 4px - subtle rounding */
+  --radius-md: 0.5rem;     /* 8px - moderate rounding */
+  --radius-lg: 0.75rem;    /* 12px - prominent rounding */
+  
+  /* ----------------------------------------
+     SHADOWS
+     ----------------------------------------
+     Shadows create depth - like elements floating above the page.
+     
+     HOW SHADOWS WORK:
+     - Horizontal offset: move shadow left/right
+     - Vertical offset: move shadow up/down
+     - Blur radius: how soft/fuzzy the shadow is
+     - Color: the shadow's color (usually black with transparency)
+  */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);      /* Very subtle - slight lift */
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);    /* Medium - card-like */
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);  /* Large - modal/popup */
+  
+  /* ----------------------------------------
+     TRANSITIONS (Animations)
+     ----------------------------------------
+     Transitions make changes smooth instead of instant.
+     Like fading a light dimmer vs flipping a switch.
+     
+     WHY TRANSITIONS?
+     - Feels more polished and professional
+     - Helps users see what changed
+     - Too many transitions can feel slow - use sparingly
+  */
+  --transition-fast: 150ms ease;     /* Quick - buttons, highlights */
+  --transition-normal: 250ms ease;   /* Normal - panels, modals */
 }
 
-/* ============================================
+/* ============================================================================
    BASE STYLES
-   ============================================ */
+   ============================================================================
+   
+   These styles apply to ALL elements of that type on the page.
+   They set the default appearance that everything starts with.
+   You can override these defaults with more specific selectors.
+*/
 
+/* The * selector targets EVERYTHING - a "reset" for the whole page */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;  /* Width includes padding and border */
+  margin: 0;               /* Remove default margins */
+  padding: 0;              /* Remove default padding */
 }
 
+/* 
+   WHAT IS box-sizing: border-box?
+   
+   By default, width = content only (padding and border add to it).
+   With border-box, width = content + padding + border.
+   
+   WHY DOES THIS MATTER?
+   - Makes layouts predictable
+   - If you set width: 200px, the element STAYS 200px wide
+   - Much easier to work with!
+*/
+
+/* The body selector targets the main content area of the page */
 body {
+  /* 
+     FONT STACK - fallback fonts
+     The browser tries each font in order until it finds one available.
+     System fonts (-apple-system, etc.) are fast and native-looking.
+  */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--gray-800);
-  background-color: var(--gray-50);
+  
+  font-size: 16px;              /* Default text size */
+  line-height: 1.5;             /* Space between lines of text */
+  color: var(--gray-800);       /* Default text color */
+  background-color: var(--gray-50); /* Page background - very light gray */
 }
 
-/* ============================================
+/* ============================================================================
    TASK CARD COMPONENT
-   ============================================ */
+   ============================================================================
+   
+   A "component" is a reusable piece of UI with its own styles.
+   The task card displays a single task in a nice-looking container.
+   
+   HOW COMPONENT CLASSES WORK:
+   1. .task-card - Base styles that all task cards have
+   2. .task-card--overdue - Modifier for overdue tasks (BEM naming)
+   3. .task-card--completed - Modifier for completed tasks
+   
+   BEM NAMING CONVENTION:
+   - Block: .task-card (the component)
+   - Element: .task-card__title (a part inside)
+   - Modifier: .task-card--overdue (a variation)
+*/
 
+/* Base task card - the default appearance */
 .task-card {
-  background: white;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-md);
+  background: white;                    /* White background */
+  border: 1px solid var(--gray-200);    /* Light gray border */
+  border-radius: var(--radius-lg);      /* Rounded corners */
+  padding: var(--spacing-lg);           /* Inner spacing */
+  margin-bottom: var(--spacing-md);     /* Space below each card */
+  
+  /* 
+     TRANSITION - animate changes to these properties
+     When box-shadow or transform changes, animate over 150ms
+  */
   transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
+/* 
+   :hover - styles that apply when mouse is over the element
+   This provides visual feedback - "this is interactive"
+*/
 .task-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);         /* Add shadow - looks lifted */
+  transform: translateY(-2px);          /* Move up 2px - floating effect */
 }
 
+/* 
+   --overdue modifier (BEM double dash)
+   Applied to task cards that are past their due date
+*/
 .task-card--overdue {
-  border-left: 4px solid var(--color-danger);
+  border-left: 4px solid var(--color-danger); /* Red left border - warning! */
 }
 
+/* 
+   --completed modifier
+   Applied to tasks that are done
+   Reduced opacity shows it's "finished"
+*/
 .task-card--completed {
-  opacity: 0.6;
-  background-color: var(--gray-50);
+  opacity: 0.6;                         /* 60% visible - faded out */
+  background-color: var(--gray-50);     /* Lighter background */
 }
 
-/* ============================================
+/* ============================================================================
    PRIORITY BADGES
-   ============================================ */
+   ============================================================================
+   
+   A "badge" is a small label that shows status or category.
+   Priority badges show how urgent a task is.
+   
+   STRUCTURE:
+   .priority-badge (base styles)
+      + .priority-critical (red - urgent)
+      + .priority-high (orange - important)
+      + .priority-medium (yellow - normal)
+      + .priority-low (green - relaxed)
+*/
 
 .priority-badge {
+  /* 
+     DISPLAY: INLINE-FLEX
+     - inline: stays in line with text, doesn't break to new line
+     - flex: allows centering content inside
+  */
   display: inline-flex;
-  align-items: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  align-items: center;              /* Vertically center content */
+  
+  padding: var(--spacing-xs) var(--spacing-sm); /* Small padding */
+  border-radius: var(--radius-sm);  /* Slightly rounded corners */
+  
+  font-size: 0.75rem;               /* 12px - smaller text */
+  font-weight: 600;                 /* Semi-bold text */
+  text-transform: uppercase;        /* CRITICAL not critical */
+  letter-spacing: 0.05em;           /* Slightly spaced letters */
 }
 
+/* 
+   Each priority level has its own color scheme
+   Background color is very light, text color is dark
+   This ensures good readability while showing meaning
+*/
+
 .priority-critical {
-  background-color: #fef2f2;
-  color: #dc2626;
+  background-color: #fef2f2;        /* Very light red background */
+  color: #dc2626;                   /* Dark red text */
 }
 
 .priority-high {
-  background-color: #fff7ed;
-  color: #ea580c;
+  background-color: #fff7ed;        /* Very light orange background */
+  color: #ea580c;                   /* Dark orange text */
 }
 
 .priority-medium {
-  background-color: #fefce8;
-  color: #ca8a04;
+  background-color: #fefce8;        /* Very light yellow background */
+  color: #ca8a04;                   /* Dark yellow text */
 }
 
 .priority-low {
-  background-color: #f0fdf4;
-  color: #16a34a;
+  background-color: #f0fdf4;        /* Very light green background */
+  color: #16a34a;                   /* Dark green text */
 }
 
-/* ============================================
+/* ============================================================================
    STATUS BADGES
-   ============================================ */
+   ============================================================================
+   
+   Status badges show where a task is in its lifecycle:
+   Todo → In Progress → Review → Done
+   
+   The "pill" shape (border-radius: 9999px) makes them look like tags.
+*/
 
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-xs);           /* Space between icon and text */
   padding: var(--spacing-xs) var(--spacing-sm);
+  
+  /* 
+     BORDER-RADIUS: 9999px
+     This creates a "pill" shape - fully rounded ends
+     No matter how wide, the ends are always round
+  */
   border-radius: 9999px;
+  
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 500;                 /* Medium weight */
 }
 
+/* Status-specific colors - each status has a semantic meaning */
 .status-badge--todo {
   background-color: var(--gray-100);
   color: var(--gray-600);
 }
 
 .status-badge--in-progress {
-  background-color: #eff6ff;
-  color: #2563eb;
+  background-color: #eff6ff;        /* Light blue */
+  color: #2563eb;                   /* Blue */
 }
 
 .status-badge--review {
-  background-color: #fef3c7;
-  color: #d97706;
+  background-color: #fef3c7;        /* Light amber */
+  color: #d97706;                   /* Amber */
 }
 
 .status-badge--done {
-  background-color: #d1fae5;
-  color: #059669;
+  background-color: #d1fae5;        /* Light green */
+  color: #059669;                   /* Green */
 }
 
 .status-badge--blocked {
-  background-color: #fee2e2;
-  color: #dc2626;
+  background-color: #fee2e2;        /* Light red */
+  color: #dc2626;                   /* Red */
 }
 
-/* ============================================
+/* ============================================================================
    TASK TABLE
-   ============================================ */
+   ============================================================================
+   
+   A table displays data in rows and columns, like a spreadsheet.
+   This is useful for showing many tasks with their details.
+   
+   TABLE STRUCTURE:
+   <table>
+     <thead> (table header)
+       <tr> (table row)
+         <th> (table header cell)
+     <tbody> (table body)
+       <tr> (table row)
+         <td> (table data cell)
+*/
 
 .task-table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100%;                       /* Fill the container */
+  border-collapse: collapse;         /* Merge adjacent borders */
   background: white;
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow: hidden;                  /* Clips corners for rounded look */
   box-shadow: var(--shadow-sm);
 }
 
+/* 
+   BORDER-COLLAPSE: COLLAPSE
+   Without this, table cells have gaps between borders.
+   With collapse, borders are shared between cells.
+*/
+
+/* Table header cells - the column titles */
 .task-table th {
-  background-color: var(--gray-50);
+  background-color: var(--gray-50);  /* Light background */
   padding: var(--spacing-md);
   text-align: left;
   font-weight: 600;
   color: var(--gray-600);
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200); /* Line below header */
 }
 
+/* Table data cells - the actual content */
 .task-table td {
   padding: var(--spacing-md);
-  border-bottom: 1px solid var(--gray-100);
+  border-bottom: 1px solid var(--gray-100); /* Line between rows */
 }
 
+/* 
+   :hover on tr (table row)
+   Highlights the entire row when mouse hovers
+*/
 .task-table tr:hover {
   background-color: var(--gray-50);
 }
 
+/* 
+   :last-child selector
+   Targets the last element of its type
+   Removes border from last row for cleaner look
+*/
 .task-table tr:last-child td {
   border-bottom: none;
 }
 
-/* ============================================
+/* ============================================================================
    FORM ELEMENTS
-   ============================================ */
+   ============================================================================
+   
+   Forms are where users enter data. Good form styling is crucial for UX.
+   - Clear labels
+   - Visible input fields
+   - Helpful error messages
+*/
 
+/* Container for a label + input pair */
 .form-group {
   margin-bottom: var(--spacing-lg);
 }
 
+/* Label - tells users what to enter */
 .form-label {
-  display: block;
+  display: block;                   /* Block = takes full width */
   margin-bottom: var(--spacing-xs);
   font-weight: 500;
   color: var(--gray-700);
 }
 
+/* 
+   SHARED INPUT STYLES
+   The comma (,) means "apply to all these selectors"
+   So .form-input, .form-select, .form-textarea all get these styles
+*/
 .form-input,
 .form-select,
 .form-textarea {
@@ -228,54 +460,85 @@ body {
   padding: var(--spacing-sm) var(--spacing-md);
   border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
-  font-size: 1rem;
+  font-size: 1rem;                  /* Same as body text */
+  
+  /* 
+     TRANSITION on border and shadow
+     When the input is focused, these properties will animate
+  */
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
+/* 
+   :focus pseudo-class
+   Styles that apply when the element has keyboard focus
+   (when user clicks or tabs into the input)
+*/
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-  outline: none;
+  outline: none;                    /* Remove default outline */
   border-color: var(--color-primary);
+  
+  /* 
+     BOX-SHADOW for focus ring
+     0 0 0 3px = no offset, 3px blur (a ring)
+     rgba with 0.1 opacity = subtle
+  */
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+/* Error state - for validation errors */
 .form-input--error {
   border-color: var(--color-danger);
 }
 
+/* Error message shown below the input */
 .form-error {
   color: var(--color-danger);
-  font-size: 0.875rem;
+  font-size: 0.875rem;              /* 14px */
   margin-top: var(--spacing-xs);
 }
 
-/* ============================================
+/* ============================================================================
    BUTTONS
-   ============================================ */
+   ============================================================================
+   
+   Buttons trigger actions. They need to:
+   - Look clickable
+   - Provide feedback on hover/click
+   - Have clear visual hierarchy (primary vs secondary)
+*/
 
 .btn {
-  display: inline-flex;
+  display: inline-flex;             /* Flex for centering */
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-sm);           /* Space between icon and text */
+  
   padding: var(--spacing-sm) var(--spacing-lg);
-  border: none;
+  border: none;                     /* Remove default border */
   border-radius: var(--radius-md);
+  
   font-size: 1rem;
   font-weight: 500;
-  cursor: pointer;
+  
+  cursor: pointer;                  /* Shows hand cursor on hover */
+  
   transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
+/* Hover state - lift slightly */
 .btn:hover {
   transform: translateY(-1px);
 }
 
+/* Active state - when button is being pressed */
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(0);         /* Return to normal position */
 }
 
+/* Primary button - main actions like "Save" */
 .btn--primary {
   background-color: var(--color-primary);
   color: white;
@@ -285,6 +548,7 @@ body {
   background-color: var(--color-primary-dark);
 }
 
+/* Secondary button - less important actions like "Cancel" */
 .btn--secondary {
   background-color: var(--gray-100);
   color: var(--gray-700);
@@ -294,75 +558,115 @@ body {
   background-color: var(--gray-200);
 }
 
+/* Success button - positive actions like "Confirm" */
 .btn--success {
   background-color: var(--color-success);
   color: white;
 }
 
+/* Danger button - destructive actions like "Delete" */
 .btn--danger {
   background-color: var(--color-danger);
   color: white;
 }
 
+/* Small button variant */
 .btn--sm {
   padding: var(--spacing-xs) var(--spacing-sm);
-  font-size: 0.875rem;
+  font-size: 0.875rem;              /* 14px */
 }
 
-/* ============================================
+/* ============================================================================
    KANBAN BOARD (Visual Builder Demo)
-   ============================================ */
+   ============================================================================
+   
+   A Kanban board shows tasks in columns based on status.
+   This is common in project management tools (Trello, Jira).
+   
+   LAYOUT: CSS GRID
+   Grid is perfect for this because:
+   - Columns are equal width
+   - Easy to make responsive
+*/
 
 .kanban-board {
+  /* 
+     CSS GRID LAYOUT
+     Creates a grid with 4 equal columns
+     1fr = "one fraction of available space"
+  */
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(4, 1fr);  /* 4 columns, equal width */
+  gap: var(--spacing-lg);                 /* Space between columns */
   padding: var(--spacing-lg);
 }
 
+/* Each column in the board */
 .kanban-column {
   background-color: var(--gray-100);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
-  min-height: 400px;
+  min-height: 400px;                      /* Minimum height */
 }
 
+/* Column header - shows status name and task count */
 .kanban-column__header {
   font-weight: 600;
   padding: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
+  
+  /* FLEXBOX for header layout */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;         /* Push title and count to edges */
   align-items: center;
 }
 
+/* Task count badge */
 .kanban-column__count {
   background: var(--gray-300);
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: 9999px;                  /* Pill shape */
   font-size: 0.75rem;
 }
 
+/* Individual task card inside a column */
 .kanban-item {
   background: white;
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
   margin-bottom: var(--spacing-sm);
   box-shadow: var(--shadow-sm);
-  cursor: grab;
+  
+  cursor: grab;                           /* Shows grab cursor - draggable */
 }
 
+/* Active state while dragging */
 .kanban-item:active {
-  cursor: grabbing;
+  cursor: grabbing;                       /* Shows closed hand cursor */
 }
 
-/* ============================================
+/* ============================================================================
    DASHBOARD STATS
-   ============================================ */
+   ============================================================================
+   
+   Statistics cards show numbers at a glance.
+   Like a car dashboard showing speed, fuel, temperature.
+*/
 
 .stats-grid {
   display: grid;
+  
+  /* 
+     AUTO-FIT WITH MINMAX
+     This is responsive magic!
+     - auto-fit: create as many columns as fit
+     - minmax(200px, 1fr): each column is at least 200px, at most equal share
+     
+     Result: On wide screens, 4 cards per row.
+     On narrow screens, cards wrap to new rows automatically.
+  */
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
 }
@@ -374,18 +678,21 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* The big number */
 .stat-card__value {
-  font-size: 2rem;
+  font-size: 2rem;                        /* 32px - big! */
   font-weight: 700;
   color: var(--gray-900);
 }
 
+/* The label below the number */
 .stat-card__label {
   color: var(--gray-500);
   font-size: 0.875rem;
   margin-top: var(--spacing-xs);
 }
 
+/* Color variations for emphasis */
 .stat-card--success .stat-card__value {
   color: var(--color-success);
 }
@@ -398,48 +705,86 @@ body {
   color: var(--color-danger);
 }
 
-/* ============================================
+/* ============================================================================
    RESPONSIVE DESIGN
-   ============================================ */
+   ============================================================================
+   
+   RESPONSIVE means the design adapts to different screen sizes.
+   We use MEDIA QUERIES to apply different styles based on screen width.
+   
+   BREAKPOINTS:
+   - Desktop: > 768px
+   - Tablet: 481px - 768px
+   - Mobile: <= 480px
+   
+   MOBILE-FIRST APPROACH:
+   We write desktop styles first, then override for smaller screens.
+   (Alternatively, you can write mobile styles first, then add for larger screens)
+*/
 
+/* Tablet and smaller (max-width: 768px means 768px or narrower) */
 @media (max-width: 768px) {
+  /* Kanban becomes single column on mobile */
   .kanban-board {
     grid-template-columns: 1fr;
   }
   
+  /* Table scrolls horizontally if too wide */
   .task-table {
-    display: block;
-    overflow-x: auto;
+    display: block;                       /* Block allows scrolling */
+    overflow-x: auto;                     /* Horizontal scroll */
   }
   
+  /* Stats show 2 per row */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Mobile (max-width: 480px) */
 @media (max-width: 480px) {
+  /* Stats become single column */
   .stats-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* ============================================
+/* ============================================================================
    UTILITY CLASSES
-   ============================================ */
+   ============================================================================
+   
+   Utility classes are single-purpose helpers.
+   Instead of writing custom CSS, you can apply these classes.
+   
+   EXAMPLE:
+   <div class="flex flex-between items-center gap-2">
+     <!-- Content here is flexbox, spaced apart, centered vertically -->
+   </div>
+   
+   WHY UTILITY CLASSES?
+   - Quick styling without writing new CSS
+   - Consistent spacing and colors
+   - Similar to Tailwind CSS approach
+*/
 
+/* Text alignment */
 .text-center { text-align: center; }
 .text-right { text-align: right; }
+
+/* Text colors */
 .text-muted { color: var(--gray-500); }
 .text-danger { color: var(--color-danger); }
 .text-success { color: var(--color-success); }
 
-.mt-1 { margin-top: var(--spacing-sm); }
+/* Margin utilities - spacing outside the element */
+.mt-1 { margin-top: var(--spacing-sm); }    /* mt = margin-top */
 .mt-2 { margin-top: var(--spacing-md); }
 .mt-3 { margin-top: var(--spacing-lg); }
-.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-1 { margin-bottom: var(--spacing-sm); } /* mb = margin-bottom */
 .mb-2 { margin-bottom: var(--spacing-md); }
 .mb-3 { margin-bottom: var(--spacing-lg); }
 
+/* Flexbox utilities */
 .flex { display: flex; }
 .flex-between { justify-content: space-between; }
 .items-center { align-items: center; }
