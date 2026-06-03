@@ -8,7 +8,7 @@ This project demonstrates the core skills required for hybrid low-code + JavaScr
 - **Data Modeling**: Entity relationships and field logic
 - **JavaScript**: Custom logic extending beyond visual builders
 - **API Integration**: External service communication
-- **CSS**: Styling and layout (Nice to Have skill)
+- **CSS**: Styling and layout
 
 ## Project Structure
 
