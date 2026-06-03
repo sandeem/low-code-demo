@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    
+    <header style="margin-bottom: 2rem;">
+      <h1>📋 Task Manager Demo</h1>
+      <p style="color: #6b7280;">Demonstrating JavaScript + CSS skills for low-code development</p>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="stats"></div>
+
+    <!-- Task Table -->
+    <section style="margin-bottom: 2rem;">
+      <h2>📊 Task Table</h2>
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody id="task-table-body"></tbody>
+      </table>
+    </section>
+
+    <!-- Demo Buttons -->
+    <section style="margin-bottom: 2rem;">
+      <h2>🔧 Try the JavaScript Functions</h2>
+      <p style="margin-bottom: 1rem;">Click buttons below to see the code in action:</p>
+      <button class="btn btn--primary" onclick="showStats()">Show Statistics</button>
+      <button class="btn btn--secondary" onclick="sortTasks()">Sort by Priority</button>
+      <button class="btn btn--secondary" onclick="validateDemo()">Test Validation</button>
+      <pre id="output" style="background: #1f2937; color: #10b981; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; min-height: 100px;"></pre>
+    </section>
+
+  </div>
+
+  <script>
+    // Sample data
+    const tasks = [
+      { id: 1, title: 'Design homepage mockup', status: 'In Progress', priority: 'High', due_date: '2026-06-05' },
+      { id: 2, title: 'Review API documentation', status: 'Todo', priority: 'Medium', due_date: '2026-06-07' },
+      { id: 3, title: 'Fix login bug', status: 'Done', priority: 'Critical', due_date: '2026-06-01' },
+      { id: 4, title: 'Write unit tests', status: 'Review', priority: 'Medium', due_date: '2026-06-10' },
+      { id: 5, title: 'Deploy to staging', status: 'Todo', priority: 'Low', due_date: '2026-06-15' }
+    ];
+
+    // Utility functions
+    function getPriorityScore(priority) {
+      const scores = { 'Critical': 4, 'High': 3, 'Medium': 2, 'Low': 1 };
+      return scores[priority] || 0;
+    }
+
+    function getPriorityColor(priority) {
+      const colors = { 'Critical': 'priority-critical', 'High': 'priority-high', 'Medium': 'priority-medium', 'Low': 'priority-low' };
+      return colors[priority] || 'priority-default';
+    }
+
+    function isOverdue(dueDate, status) {
+      if (status === 'Done') return false;
+      return new Date(dueDate) < new Date();
+    }
+
+    function validateTask(task) {
+      const errors = [];
+      if (!task.title || task.title.trim() === '') errors.push('Task title is required');
+      if (task.title && task.title.length > 200) errors.push('Title too long');
+      return { valid: errors.length === 0, errors };
+    }
+
+    function log(msg) {
+      document.getElementById('output').textContent += msg + '\n';
+    }
+
+    function clearLog() {
+      document.getElementById('output').textContent = '';
+    }
+
+    // Render table
+    function renderTable(taskList) {
+      const tbody = document.getElementById('task-table-body');
+      tbody.innerHTML = taskList.map(task => {
+        const statusClass = 'status-badge--' + task.status.toLowerCase().replace(' ', '-');
+        const overdue = isOverdue(task.due_date, task.status) ? '⚠️ ' : '';
+        return `<tr>
+          <td><strong>${task.title}</strong></td>
+          <td><span class="status-badge ${statusClass}">${task.status}</span></td>
+          <td><span class="priority-badge ${getPriorityColor(task.priority)}">${task.priority}</span></td>
+          <td>${overdue}${task.due_date}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // Render stats
+    function renderStats() {
+      const total = tasks.length;
+      const done = tasks.filter(t => t.status === 'Done').length;
+      const inProgress = tasks.filter(t => t.status === 'In Progress').length;
+      const overdue = tasks.filter(t => isOverdue(t.due_date, t.status)).length;
+      
+      document.getElementById('stats').innerHTML = `
+        <div class="stat-card"><div class="stat-card__value">${total}</div><div class="stat-card__label">Total Tasks</div></div>
+        <div class="stat-card stat-card--success"><div class="stat-card__value">${done}</div><div class="stat-card__label">Completed</div></div>
+        <div class="stat-card"><div class="stat-card__value">${inProgress}</div><div class="stat-card__label">In Progress</div></div>
+        <div class="stat-card stat-card--danger"><div class="stat-card__value">${overdue}</div><div class="stat-card__label">Overdue</div></div>
+      `;
+    }
+
+    // Demo functions
+    function showStats() {
+      clearLog();
+      log('📊 TASK STATISTICS\n');
+      log('Total tasks: ' + tasks.length);
+      log('Completed: ' + tasks.filter(t => t.status === 'Done').length);
+      log('In Progress: ' + tasks.filter(t => t.status === 'In Progress').length);
+      log('Overdue: ' + tasks.filter(t => isOverdue(t.due_date, t.status)).length);
+      log('\n✅ This demonstrates the calculateTaskStats() function!');
+    }
+
+    function sortTasks() {
+      clearLog();
+      log('📊 SORTING BY PRIORITY\n');
+      const sorted = [...tasks].sort((a, b) => getPriorityScore(b.priority) - getPriorityScore(a.priority));
+      sorted.forEach(t => log(`[${t.priority}] ${t.title}`));
+      log('\n✅ Table updated with sorted tasks!');
+      renderTable(sorted);
+    }
+
+    function validateDemo() {
+      clearLog();
+      log('🔧 VALIDATION TESTS\n');
+      
+      const test1 = validateTask({ title: '' });
+      log('Test 1: Empty title');
+      log('  Valid: ' + test1.valid);
+      log('  Errors: ' + test1.errors.join(', ') + '\n');
+      
+      const test2 = validateTask({ title: 'Complete feature' });
+      log('Test 2: Valid task');
+      log('  Valid: ' + test2.valid);
+      log('  Errors: ' + (test2.errors.length ? test2.errors.join(', ') : 'None') + '\n');
+      
+      log('✅ This demonstrates the validateTask() function!');
+    }
+
+    // Initialize
+    renderStats();
+    renderTable(tasks);
+    showStats();
+  </script>
+</body>
+</html>
